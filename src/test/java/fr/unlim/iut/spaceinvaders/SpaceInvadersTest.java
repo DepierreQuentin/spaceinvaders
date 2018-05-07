@@ -19,6 +19,24 @@ public class SpaceInvadersTest {
 	    "...............\n" + 
 	    "...............\n" + 
 	    "...............\n" , spaceinvaders.toString());
-        }
-
    }
+   
+   @Test
+	public void test_unNouveauVaisseauEstCorrectementPositionneDansEspaceJeu() {
+		SpaceInvaders spaceinvaders = new SpaceInvaders(15, 10);
+		spaceinvaders.positionnerUnNouveauVaisseau(7,9);
+		assertEquals("" + 
+		"...............\n" + 
+		"...............\n" +
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		".......V.......\n" , spaceinvaders.toString());
+	}
+   
+   
+}
