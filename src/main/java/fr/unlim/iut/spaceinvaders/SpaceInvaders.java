@@ -69,6 +69,11 @@ public class SpaceInvaders {
 	private boolean estDansEspaceJeu(int x, int y) {
 		return ((x >= 0) && (x < longueur)) && ((y >= 0) && (y < hauteur));
 	}
+
+
+	public void deplacerVaisseauVersLaDroite() {
+		vaisseau.seDeplacerVersLaDroite();
+	}
 	
 	
 
