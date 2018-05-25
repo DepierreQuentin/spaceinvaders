@@ -178,4 +178,5 @@ public class SpaceInvadersTest {
   		".......VVV.....\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
   	}
    
+   
 }
