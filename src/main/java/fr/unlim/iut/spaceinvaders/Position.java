@@ -17,4 +17,11 @@ public class Position {
 		return this.y;
 	}
 
+	public void changerAbscisse(int nouvelleAbscisse) {
+		this.x = nouvelleAbscisse;
+	}
+
+	public void changerOrdonnee(int nouvelleOrdonnee) {
+		this.y = nouvelleOrdonnee;
+	}
 }
