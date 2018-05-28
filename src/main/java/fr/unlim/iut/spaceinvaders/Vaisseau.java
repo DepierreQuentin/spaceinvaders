@@ -11,13 +11,13 @@ public class Vaisseau {
 	}
 
 	public Vaisseau(int longueur, int hauteur, int x, int y) {
-		this(new Dimension(longueur, hauteur), new Position(x, y));
+		this(new Dimension(longueur, hauteur), new Position(x, y),1);
 	}
 
-	public Vaisseau(Dimension dimension, Position positionOrigine) {
+	public Vaisseau(Dimension dimension, Position positionOrigine, int vitesse) {
 		this.dimension = dimension;
 		this.origine = positionOrigine;
-		this.vitesse = 1;
+		this.vitesse = vitesse;
 	}
 
 	public boolean occupeLaPosition(int x, int y) {
