@@ -1,5 +1,8 @@
 package fr.unlim.iut.spaceinvaders;
 
+import fr.unlim.iut.spaceinvaders.utils.DebordementEspaceJeuException;
+import fr.unlim.iut.spaceinvaders.utils.MissileException;
+
 public class Vaisseau extends Sprite {
 
 	public Vaisseau(Dimension dimension, Position positionOrigine, int vitesse) {
@@ -7,6 +10,10 @@ public class Vaisseau extends Sprite {
 	}
 
 	public Missile tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
+		
+		if (dimensionMissile.longueur()>this.longueur())
+			throw new MissileException(
+					"Le missile est plus large que le vaisseau");
 		
 		Position positionOrigineMissile = calculerLaPositionDeTirDuMissile(dimensionMissile);
 

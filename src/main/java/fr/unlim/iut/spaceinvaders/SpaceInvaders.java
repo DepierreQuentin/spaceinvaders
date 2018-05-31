@@ -4,6 +4,7 @@ import fr.unlim.iut.spaceinvaders.moteurjeu.Commande;
 import fr.unlim.iut.spaceinvaders.moteurjeu.Jeu;
 import fr.unlim.iut.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unlim.iut.spaceinvaders.utils.HorsEspaceJeuException;
+import fr.unlim.iut.spaceinvaders.utils.MissileException;
 
 public class SpaceInvaders implements Jeu {
 
@@ -117,8 +118,11 @@ public class SpaceInvaders implements Jeu {
 
 	}
 
-	public void tirerUnMissile(Dimension dimension, int vitesse) {
-		this.missile = this.vaisseau.tirerUnMissile(dimension,vitesse);
+	public void tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
+		if ((vaisseau.hauteur()+ dimensionMissile.hauteur()) > this.hauteur )
+			throw new MissileException("Pas assez de hauteur libre entre le vaisseau et le haut de l'espace jeu pour tirer le missile");
+								
+		this.missile = this.vaisseau.tirerUnMissile(dimensionMissile,vitesseMissile);
 	}
 
 	private boolean aUnMissile() {

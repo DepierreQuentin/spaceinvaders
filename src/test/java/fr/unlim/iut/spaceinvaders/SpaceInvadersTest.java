@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import fr.unlim.iut.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unlim.iut.spaceinvaders.utils.HorsEspaceJeuException;
+import fr.unlim.iut.spaceinvaders.utils.MissileException;
 
 public class SpaceInvadersTest {
 
@@ -247,5 +248,12 @@ public class SpaceInvadersTest {
      ".....VVVVVVV...\n" + 
      ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
   }
+   
+   @Test(expected = MissileException.class)
+	public void test_PasAssezDePlacePourTirerUnMissile_UneExceptionEstLevee() throws Exception { 
+	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 1);
+	   spaceinvaders.tirerUnMissile(new Dimension(7,9),1);
+	}
+   
    
 }
