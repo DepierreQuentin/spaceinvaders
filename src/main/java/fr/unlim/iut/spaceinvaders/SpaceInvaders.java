@@ -115,6 +115,10 @@ public class SpaceInvaders implements Jeu {
 						Constante.MISSILE_VITESSE);
 		}
 		
+		if (this.aUnMissile()) {
+			this.deplacerMissile();
+		}
+		
 	}
 
 	@Override
