@@ -24,7 +24,7 @@ public class SpaceInvaders implements Jeu {
 		positionnerUnNouveauVaisseau(dimensionVaisseau, positionVaisseau, Constante.VAISSEAU_VITESSE);
 		
 		//envahisseur
-		Position positionEnvahisseur = new Position(this.longueur/2,0);
+		Position positionEnvahisseur = new Position(this.longueur/2,Constante.ENVAHISSEUR_HAUTEUR-1);
 		Dimension dimensionEnvahisseur = new Dimension(Constante.ENVAHISSEUR_LONGUEUR, Constante.ENVAHISSEUR_HAUTEUR);
 		positionnerUnNouvelEnvahisseur(dimensionEnvahisseur, positionEnvahisseur, Constante.ENVAHISSEUR_VITESSE);
 		
@@ -166,7 +166,7 @@ public class SpaceInvaders implements Jeu {
 	
 	
 	boolean aUnEnvahisseur() {
-		return missile != null;
+		return envahisseur != null;
 	}
 
 	private boolean aUnEnvahisseurQuiOccupeLaPosition(int x, int y) {
@@ -192,6 +192,10 @@ public class SpaceInvaders implements Jeu {
 					"L'envahisseur déborde de l'espace jeu vers le bas à cause de sa hauteur");
 
 		envahisseur = new Envahisseur(dimension,position,vitesse);
+	}
+
+	public Envahisseur recupererEnvahisseur() {
+		return this.envahisseur;
 	}
 	
 

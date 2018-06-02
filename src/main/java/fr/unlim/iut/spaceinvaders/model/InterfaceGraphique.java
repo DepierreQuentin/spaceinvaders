@@ -33,6 +33,7 @@ public class InterfaceGraphique  {
 		//creation JFrame
 		JFrame f=new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setLocationRelativeTo(null);
 		
 		// creation panel
 		this.panel=new PanelDessin(x, y,afficheurUtil);
