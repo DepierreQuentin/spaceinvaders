@@ -1,4 +1,4 @@
-package fr.unlim.iut.spaceinvaders;
+package fr.unlim.iut.spaceinvaders.model;
 
 import fr.unlim.iut.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unlim.iut.spaceinvaders.utils.MissileException;

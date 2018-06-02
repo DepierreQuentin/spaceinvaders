@@ -1,5 +1,4 @@
-package fr.unlim.iut.spaceinvaders.moteurjeu;
-
+package fr.unlim.iut.spaceinvaders.model;
 
 /**
  * classe MoteurGraphique represente un moteur de jeu generique.

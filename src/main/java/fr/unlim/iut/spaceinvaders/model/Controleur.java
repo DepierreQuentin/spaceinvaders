@@ -1,4 +1,4 @@
-package fr.unlim.iut.spaceinvaders.moteurjeu;
+package fr.unlim.iut.spaceinvaders.model;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

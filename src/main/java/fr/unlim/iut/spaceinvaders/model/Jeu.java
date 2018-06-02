@@ -1,4 +1,4 @@
-package fr.unlim.iut.spaceinvaders.moteurjeu;
+package fr.unlim.iut.spaceinvaders.model;
 
 /**
  * represente un jeu un jeu est caracterise par la methode evoluer a redefinir
