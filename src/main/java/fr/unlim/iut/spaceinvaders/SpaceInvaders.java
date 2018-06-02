@@ -143,7 +143,12 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void deplacerMissile() {
-		missile.deplacerVerticalementVers(Direction.HAUT_ECRAN);
+		if (this.aUnMissile()) {
+			missile.deplacerVerticalementVers(Direction.HAUT_ECRAN);
+			if (!estDansEspaceJeu(missile.abscisseLaPlusADroite(), missile.ordonneeLaPlusBasse())) {
+				this.missile=null;
+			}
+		}
 	}
 	
 	
