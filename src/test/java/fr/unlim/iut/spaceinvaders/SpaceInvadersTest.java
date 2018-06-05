@@ -343,5 +343,21 @@ public class SpaceInvadersTest {
        ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
    }
    
+   @Test
+	public void test_FinDePartieApresDetectionDUneCollision() throws Exception {
+		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 1);
+		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(7,1), 1);
+		
+		spaceinvaders.tirerUnMissile(new Dimension(3,2),2);
+		
+		spaceinvaders.deplacerMissile();
+		
+		spaceinvaders.deplacerMissile();
+		
+		spaceinvaders.deplacerMissile();
+		
+		assertEquals(true , spaceinvaders.etreFini());
+	}
+   
    
 }

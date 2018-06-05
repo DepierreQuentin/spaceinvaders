@@ -132,13 +132,14 @@ public class SpaceInvaders implements Jeu {
 		}
 		
 	}
-
 	
 
 	@Override
 	public boolean etreFini() {
+		if (this.aUnMissile() && this.aUnEnvahisseur() && Collision.detecterCollision(missile, envahisseur))
+			return true;
+		
 		return false;
-
 	}
 
 	public void tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
