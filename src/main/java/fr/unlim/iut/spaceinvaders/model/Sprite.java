@@ -21,11 +21,11 @@ public abstract class Sprite {
 		return estAbscisseCouverte(x) && estOrdonneeCouverte(y);
 	}
 
-	private boolean estOrdonneeCouverte(int y) {
+	public boolean estOrdonneeCouverte(int y) {
 		return (ordonneeLaPlusBasse() <= y) && (y <= ordonneeLaPlusHaute());
 	}
 
-	private boolean estAbscisseCouverte(int x) {
+	public boolean estAbscisseCouverte(int x) {
 		return (abscisseLaPlusAGauche() <= x) && (x <= abscisseLaPlusADroite());
 	}
 
