@@ -15,4 +15,6 @@ public class VaisseauTest {
 		vaisseau.tirerUnMissile(new Dimension(7,2),1);
 	}
 	
+	
+	
 }

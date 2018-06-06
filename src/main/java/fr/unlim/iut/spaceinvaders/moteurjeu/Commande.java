@@ -1,4 +1,4 @@
-package fr.unlim.iut.spaceinvaders.model;
+package fr.unlim.iut.spaceinvaders.moteurjeu;
 
 /**
  * permet de representer une commande de l'utilisateur

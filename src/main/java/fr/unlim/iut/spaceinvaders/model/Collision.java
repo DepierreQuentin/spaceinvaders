@@ -1,23 +1,20 @@
 package fr.unlim.iut.spaceinvaders.model;
 
+import java.util.List;
+
 public class Collision {
 	
-	public static boolean detecterCollision(Sprite missile, Sprite envahisseur) {
-		if (uneDesAbscissesDuMissileEstEntreLesAbscissesDeEnvahisseur(missile, envahisseur) &&
-				uneDesOrdonneesDuMissileEstEntreLesOrdonneesDeEnvahisseur(missile, envahisseur)) 
-				return true;
+public static boolean detecterCollision(Sprite sprite1, Sprite sprite2) {
 		
-		return false;
-	}
-	
-	private static boolean uneDesOrdonneesDuMissileEstEntreLesOrdonneesDeEnvahisseur(Sprite missile, Sprite envahisseur) {
-		return envahisseur.estOrdonneeCouverte(missile.ordonneeLaPlusHaute()) ||
-				envahisseur.estOrdonneeCouverte(missile.ordonneeLaPlusBasse());
-	}
-
-	private static boolean uneDesAbscissesDuMissileEstEntreLesAbscissesDeEnvahisseur(Sprite missile, Sprite envahisseur) {
-		return envahisseur.estAbscisseCouverte(missile.abscisseLaPlusAGauche()) ||
-				envahisseur.estAbscisseCouverte(missile.abscisseLaPlusADroite());
+		return sprite1.occupeLaPosition(sprite2.abscisseLaPlusAGauche(), sprite2.ordonneeLaPlusBasse())
+			|| sprite1.occupeLaPosition(sprite2.abscisseLaPlusAGauche(), sprite2.ordonneeLaPlusHaute())
+			|| sprite1.occupeLaPosition(sprite2.abscisseLaPlusADroite(), sprite2.ordonneeLaPlusBasse())
+			|| sprite1.occupeLaPosition(sprite2.abscisseLaPlusADroite(), sprite2.ordonneeLaPlusHaute())
+			|| sprite2.occupeLaPosition(sprite1.abscisseLaPlusAGauche(), sprite1.ordonneeLaPlusBasse())
+			|| sprite2.occupeLaPosition(sprite1.abscisseLaPlusAGauche(), sprite1.ordonneeLaPlusHaute())
+			|| sprite2.occupeLaPosition(sprite1.abscisseLaPlusADroite(), sprite1.ordonneeLaPlusBasse())
+			|| sprite2.occupeLaPosition(sprite1.abscisseLaPlusADroite(), sprite1.ordonneeLaPlusHaute());
+		
 	}
 
 }

@@ -2,7 +2,6 @@ package fr.unlim.iut.spaceinvaders.moteurjeu;
 
 import fr.unlim.iut.spaceinvaders.model.Constante;
 import fr.unlim.iut.spaceinvaders.model.DessinSpaceInvaders;
-import fr.unlim.iut.spaceinvaders.model.MoteurGraphique;
 import fr.unlim.iut.spaceinvaders.model.SpaceInvaders;
 
 public class Main {
