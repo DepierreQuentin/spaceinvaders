@@ -153,17 +153,25 @@ public class SpaceInvaders implements Jeu {
 		
 		this.deplacementAutomatiqueDesEnvahisseurs();
 		
+		this.eliminerEnvahisseurSiTouche();
+		
 	}
-	
 
-	@Override
-	public boolean etreFini() {
-		for (int j=0; j < envahisseurs.size(); j++) {
-			for (int i=0; i < missiles.size(); i++) {
-				if (this.aUnMissile() && this.aUnEnvahisseur() && Collision.detecterCollision(missiles.get(i), envahisseurs.get(j)))
-					return true;
+	public void eliminerEnvahisseurSiTouche() {
+		for (int i=0; i < missiles.size(); i++) {
+			for (int j=0; j < envahisseurs.size(); j++) {
+				if (Collision.detecterCollision(envahisseurs.get(j), missiles.get(i))) {
+					envahisseurs.remove(j);
+					missiles.remove(i);
+				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean etreFini() {
+		if (!this.aUnEnvahisseur())
+			return true;
 		
 		return false;
 	}

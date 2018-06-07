@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.unlim.iut.spaceinvaders.model.Collision;
 import fr.unlim.iut.spaceinvaders.model.Dimension;
 import fr.unlim.iut.spaceinvaders.model.Position;
 import fr.unlim.iut.spaceinvaders.model.SpaceInvaders;
@@ -343,6 +344,8 @@ public class SpaceInvadersTest {
        ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
    }
    
+   /*
+    * test devenu inutile car est testé plus bas
    @Test
 	public void test_FinDePartieApresDetectionDUneCollision() throws Exception {
 		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 1);
@@ -358,6 +361,7 @@ public class SpaceInvadersTest {
 		
 		assertEquals(true , spaceinvaders.etreFini());
 	}
+	*/
    
    @Test
    public void test_plusieursMissilesPossibles() {
@@ -438,6 +442,155 @@ public class SpaceInvadersTest {
    			"...............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
    	
    }
+   
+   @Test
+   public void test_eliminationDUnEnvahisseurSIlEstToucheParUnMissile() {
+
+	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 2);
+	   for (int i=0; i<3; i++) {
+		   spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(i*4,1), 2);
+	   }
+	   
+	   spaceinvaders.tirerUnMissile(new Dimension(1,2),2);
+	   
+	   spaceinvaders.deplacerTousLesMissiles();
+	   
+      assertEquals("" + 
+      "EEE.EEE.EEE....\n" + 
+	  "EEE.EEE.EEE....\n" +
+      "...............\n" + 
+      "...............\n" + 
+      "........M......\n" + 
+      "........M......\n" + 
+      "...............\n" + 
+      "...............\n" + 
+      ".....VVVVVVV...\n" + 
+      ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+      
+      spaceinvaders.deplacerTousLesMissiles();
+      spaceinvaders.deplacerTousLesMissiles();
+      
+      assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(2), spaceinvaders.recupererUnMissile(0)));
+      
+      spaceinvaders.eliminerEnvahisseurSiTouche();
+      
+      assertEquals("" + 
+    	      "EEE.EEE........\n" + 
+    		  "EEE.EEE........\n" +
+    	      "...............\n" + 
+    	      "...............\n" + 
+    	      "...............\n" + 
+    	      "...............\n" + 
+    	      "...............\n" + 
+    	      "...............\n" + 
+    	      ".....VVVVVVV...\n" + 
+    	      ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+      
+  }
+   
+   /*
+    * test devenu inutile car testé dans le test suivant
+   @Test
+   public void test_partieNonTermineeSIlResteAuMoinsUnEnvahisseur() {
+
+	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 2);
+	   for (int i=0; i<3; i++) {
+		   spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(i*4,1), 2);
+	   }
+	   
+	   spaceinvaders.tirerUnMissile(new Dimension(1,2),2);
+	   
+	   spaceinvaders.deplacerTousLesMissiles();
+	   
+      assertEquals("" + 
+      "EEE.EEE.EEE....\n" + 
+	  "EEE.EEE.EEE....\n" +
+      "...............\n" + 
+      "...............\n" + 
+      "........M......\n" + 
+      "........M......\n" + 
+      "...............\n" + 
+      "...............\n" + 
+      ".....VVVVVVV...\n" + 
+      ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+      
+      spaceinvaders.deplacerTousLesMissiles();
+      spaceinvaders.deplacerTousLesMissiles();
+      
+      assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(2), spaceinvaders.recupererUnMissile(0)));
+      
+      assertEquals(false , spaceinvaders.etreFini());
+      
+  }
+   */
+   
+   @Test
+   public void test_partieFinieSeulementApresDestructionDeTousLesEnvahisseurs() {
+
+	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 2);
+
+	   spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(7,1), 2);
+	   spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(11,1), 2);
+	   
+	   spaceinvaders.tirerUnMissile(new Dimension(1,2),2);
+	   
+	   spaceinvaders.deplacerTousLesMissiles();
+	   
+      assertEquals("" + 
+      ".......EEE.EEE.\n" + 
+	  ".......EEE.EEE.\n" +
+      "...............\n" + 
+      "...............\n" + 
+      "........M......\n" + 
+      "........M......\n" + 
+      "...............\n" + 
+      "...............\n" + 
+      ".....VVVVVVV...\n" + 
+      ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+      
+      spaceinvaders.deplacerTousLesMissiles();
+      spaceinvaders.deplacerTousLesMissiles();
+      
+      assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(0), spaceinvaders.recupererUnMissile(0)));
+      
+      spaceinvaders.eliminerEnvahisseurSiTouche();
+      
+      assertEquals(false , spaceinvaders.etreFini());
+      
+      
+      spaceinvaders.deplacementAutomatiqueDesEnvahisseurs();
+      spaceinvaders.deplacementAutomatiqueDesEnvahisseurs();
+      
+      spaceinvaders.tirerUnMissile(new Dimension(1,2),2);
+      
+      spaceinvaders.deplacerTousLesMissiles();
+      
+      
+      assertEquals("" + 
+    	      ".......EEE.....\n" + 
+    		  ".......EEE.....\n" +
+    	      "...............\n" + 
+    	      "...............\n" + 
+    	      "........M......\n" + 
+    	      "........M......\n" + 
+    	      "...............\n" + 
+    	      "...............\n" + 
+    	      ".....VVVVVVV...\n" + 
+    	      ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+      
+      
+      spaceinvaders.deplacerTousLesMissiles();
+      spaceinvaders.deplacerTousLesMissiles();
+      
+      
+      assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(0), spaceinvaders.recupererUnMissile(0)));
+      
+      spaceinvaders.eliminerEnvahisseurSiTouche();
+      
+      assertEquals(true , spaceinvaders.etreFini());
+      
+      
+  }
    
    
 }
