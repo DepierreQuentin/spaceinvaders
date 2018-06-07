@@ -22,7 +22,7 @@ public class CollisionTest {
 	@Test
 	public void test_CollisionEntreDeuxSprite() throws Exception {
 		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 1);
-		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(7,1), 1);
+		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(7,1), 1, 0);
 		
 		spaceinvaders.tirerUnMissile(new Dimension(3,2),2);
 		
@@ -57,7 +57,7 @@ public class CollisionTest {
 		
 		spaceinvaders.deplacerTousLesMissiles();
 		
-		assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnMissile(0), spaceinvaders.recupererUnEnvahisseur(0)));
+		assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnMissile(0), spaceinvaders.recupererUneLigneDEnvahisseur(0).get(0)));
 	}
 	
 	

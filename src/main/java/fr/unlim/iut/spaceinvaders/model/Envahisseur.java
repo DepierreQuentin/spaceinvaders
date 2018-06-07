@@ -39,4 +39,8 @@ public class Envahisseur extends Sprite {
 		return positionOrigineMissile;
 	}
 	
+	public void faireDescendre() {
+		this.origine.changerOrdonnee(this.origine.abscisse() - Constante.ENVAHISSEUR_VITESSE_DESCENTE);
+	}
+	
 }
