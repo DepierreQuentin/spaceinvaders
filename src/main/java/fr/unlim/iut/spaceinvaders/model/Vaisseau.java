@@ -1,6 +1,5 @@
 package fr.unlim.iut.spaceinvaders.model;
 
-import fr.unlim.iut.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unlim.iut.spaceinvaders.utils.MissileException;
 
 public class Vaisseau extends Sprite {

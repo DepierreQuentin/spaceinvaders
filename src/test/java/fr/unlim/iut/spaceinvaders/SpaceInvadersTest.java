@@ -472,7 +472,7 @@ public class SpaceInvadersTest {
       
       assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(2), spaceinvaders.recupererUnMissile(0)));
       
-      spaceinvaders.eliminerEnvahisseurSiTouche();
+      spaceinvaders.controlerMissilesVaisseau();
       
       assertEquals("" + 
     	      "EEE.EEE........\n" + 
@@ -553,7 +553,7 @@ public class SpaceInvadersTest {
       
       assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(0), spaceinvaders.recupererUnMissile(0)));
       
-      spaceinvaders.eliminerEnvahisseurSiTouche();
+      spaceinvaders.controlerMissilesVaisseau();
       
       assertEquals(false , spaceinvaders.etreFini());
       
@@ -585,7 +585,7 @@ public class SpaceInvadersTest {
       
       assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(0), spaceinvaders.recupererUnMissile(0)));
       
-      spaceinvaders.eliminerEnvahisseurSiTouche();
+      spaceinvaders.controlerMissilesVaisseau();
       
       assertEquals(true , spaceinvaders.etreFini());
       
@@ -625,7 +625,7 @@ public class SpaceInvadersTest {
       
       assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(0), spaceinvaders.recupererUnMissile(0)));
       
-      spaceinvaders.eliminerEnvahisseurSiTouche();
+      spaceinvaders.controlerMissilesVaisseau();
       
       assertEquals(100 , spaceinvaders.score());
       
@@ -712,7 +712,7 @@ public class SpaceInvadersTest {
 
    	spaceinvaders.deplacerTousLesMissiles();
    	
-   	spaceinvaders.controlerMissilesEnvahisseurs();
+   	spaceinvaders.controlerMissilesVaisseau();
    	
    	assertEquals("" + 
    			"EEE............\n" + 

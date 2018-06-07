@@ -2,6 +2,7 @@ package fr.unlim.iut.spaceinvaders.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import fr.unlim.iut.spaceinvaders.moteurjeu.Commande;
 import fr.unlim.iut.spaceinvaders.moteurjeu.Jeu;
@@ -19,6 +20,7 @@ public class SpaceInvaders implements Jeu {
 	private List<Missile> missilesEnvahisseurs;
 	int score;
 	boolean partieTerminee;
+	Random rand;
 
 	public SpaceInvaders(int longueur, int hauteur) {
 		this.longueur = longueur;
@@ -27,6 +29,8 @@ public class SpaceInvaders implements Jeu {
 		this.envahisseurs = new ArrayList<Envahisseur>();
 		this.missilesEnvahisseurs = new ArrayList<Missile>();
 		this.score = 0;
+		
+		rand = new Random();
 		
 		this.partieTerminee = false;
 	}
@@ -158,29 +162,34 @@ public class SpaceInvaders implements Jeu {
 					Constante.MISSILE_VITESSE);
 		}
 		
+		if(rand.nextFloat() < Constante.ENVAHISSEUR_PROBABILITE_TIR) {
+			tirerMissileEnvahisseurAleatoirement(new Dimension(Constante.MISSILE_LONGUEUR, Constante.MISSILE_HAUTEUR), Constante.MISSILE_VITESSE);
+		}
+		
 		this.deplacerTousLesMissiles();
 		
 		this.deplacementAutomatiqueDesEnvahisseurs();
 		
-		this.eliminerEnvahisseurSiTouche();
+		
+		this.controlerTousLesMissiles();
+		
+	}
+	
+	public void controlerTousLesMissiles() {
+		this.controlerMissilesVaisseau();
 		
 		this.controlerMissilesEnvahisseurs();
-		
+	}
+	
+	public void tirerMissileEnvahisseurAleatoirement(Dimension dimensionMissile, int vitesseMissile) {
+		int indexAleatoire = rand.nextInt(envahisseurs.size());
+		tirerMissileEnvahisseur(dimensionMissile, vitesseMissile, indexAleatoire);
 	}
 	
 	public void controlerMissilesEnvahisseurs() {
 		for (int i=0; i < missilesEnvahisseurs.size(); i++) {
 			if (Collision.detecterCollision(this.vaisseau, missilesEnvahisseurs.get(i))) {
 				this.partieTerminee = true;
-			} else {
-				for (int j=0; j < missiles.size(); j++) {
-					if (this.aUnMissile() && this.aUnEnvahisseur()) {
-						if (Collision.detecterCollision(missiles.get(j), missilesEnvahisseurs.get(i))) {
-							missiles.remove(j);
-							missilesEnvahisseurs.remove(i);
-						}
-					}
-				}
 			}
 		}
 	}
@@ -189,7 +198,7 @@ public class SpaceInvaders implements Jeu {
 		return this.score;
 	}
 	
-	public void eliminerEnvahisseurSiTouche() {
+	public void controlerMissilesVaisseau() {
 		for (int i=0; i < missiles.size(); i++) {
 			for (int j=0; j < envahisseurs.size(); j++) {
 				if (this.aUnMissile() && this.aUnEnvahisseur()) {
@@ -197,6 +206,14 @@ public class SpaceInvaders implements Jeu {
 						envahisseurs.remove(j);
 						missiles.remove(i);
 						this.MAJPoints();
+					}
+				}
+			}
+			for (int j=0; j < missilesEnvahisseurs.size(); j++) {
+				if (this.aUnMissile() && this.aUnMissileEnvahisseur()) {
+					if (Collision.detecterCollision(missilesEnvahisseurs.get(j), missiles.get(i))) {
+						missilesEnvahisseurs.remove(j);
+						missiles.remove(i);
 					}
 				}
 			}
