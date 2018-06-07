@@ -28,17 +28,20 @@ public class DessinSpaceInvaders implements DessinJeu {
 		if (this.jeu.aUnMissile()) {
 			List<Missile> missiles = this.jeu.recupererLaListeDesMissiles();
 			for (int i=0; i < missiles.size(); i++) {
-				if (missiles.get(i) != null) {
-					this.dessinerUnMissile(missiles.get(i), im);
-				}
+				this.dessinerUnMissile(missiles.get(i), im);
 			}
 		}
 		if (this.jeu.aUnEnvahisseur()) {
 			List<Envahisseur> envahisseurs = this.jeu.recupererLaListeDesEnvahisseurs();
 			for (int j=0; j < envahisseurs.size(); j++) {
-				if (envahisseurs.get(j) != null) {
-					this.dessinerUnEnvahisseur(envahisseurs.get(j), im);
-				}
+				this.dessinerUnEnvahisseur(envahisseurs.get(j), im);
+			}
+		}
+		
+		if (this.jeu.aUnMissileEnvahisseur()) {
+			List<Missile> missilesEnvahisseurs = this.jeu.recupererLaListeDesMissilesEnvahisseurs();
+			for(int i=0; i < missilesEnvahisseurs.size(); i++) {
+				this.dessinerUnMissileEnvahisseur(missilesEnvahisseurs.get(i), im);
 			}
 		}
 		
@@ -85,6 +88,15 @@ public class DessinSpaceInvaders implements DessinJeu {
 		crayon.setColor(Color.black);
 		crayon.setFont(new Font("Arial", Font.BOLD, 18));
 		crayon.drawString("Scrore : " + String.valueOf(jeu.score()), Constante.SCORE_ABSCISSE, Constante.SCORE_ORDONNEE);
+	}
+	
+	private void dessinerUnMissileEnvahisseur(Missile missile, BufferedImage im) {
+		Graphics2D crayon = (Graphics2D) im.getGraphics();
+
+		crayon.setColor(Color.green);
+		crayon.fillRect(missile.abscisseLaPlusAGauche(), missile.ordonneeLaPlusHaute(), missile.longueur(),
+				missile.hauteur());	
+		
 	}
 
 }

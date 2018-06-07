@@ -22,6 +22,8 @@ public class Constante {
 	   public static final char MARQUE_VAISSEAU = 'V';
 	   public static final char	MARQUE_MISSILE = 'M';
 	   public static final char	MARQUE_ENVAHISSEUR = 'E';
+	   public static final char	MARQUE_MISSILE_ENVAHISSEUR = 'W';
+	   
 	   
 	   public static final int POINTS_DESTRUCTION_ENVAHISSEUR = 100;
 	   public static final int ZONE_SCORE_HAUTEUR = 50;
