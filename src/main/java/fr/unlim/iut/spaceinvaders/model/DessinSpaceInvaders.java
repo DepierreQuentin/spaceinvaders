@@ -1,6 +1,7 @@
 package fr.unlim.iut.spaceinvaders.model;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -17,6 +18,9 @@ public class DessinSpaceInvaders implements DessinJeu {
 
 	@Override
 	public void dessiner(BufferedImage im) {
+		
+		this.dessinBackground(im);
+		
 		if (this.jeu.aUnVaisseau()) {
 			Vaisseau vaisseau = this.jeu.recupererVaisseau();
 			this.dessinerUnVaisseau(vaisseau, im);
@@ -37,6 +41,15 @@ public class DessinSpaceInvaders implements DessinJeu {
 				}
 			}
 		}
+		
+		this.dessinerScore(im);
+	}
+	
+	private void dessinBackground(BufferedImage im) {
+		Graphics2D crayon = (Graphics2D) im.getGraphics();
+
+		crayon.setColor(Color.black);
+		crayon.fillRect(0, 0, Constante.ESPACEJEU_LONGUEUR, Constante.ESPACEJEU_HAUTEUR);			
 	}
 
 	private void dessinerUnVaisseau(Vaisseau vaisseau, BufferedImage im) {
@@ -60,10 +73,18 @@ public class DessinSpaceInvaders implements DessinJeu {
 	private void dessinerUnEnvahisseur(Envahisseur envahisseur, BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 
-		crayon.setColor(Color.pink);
+		crayon.setColor(Color.red);
 		crayon.fillRect(envahisseur.abscisseLaPlusAGauche(), envahisseur.ordonneeLaPlusBasse(), envahisseur.longueur(),
 				envahisseur.hauteur());
 
+	}
+	
+	private void dessinerScore(BufferedImage im) {
+		Graphics2D crayon = (Graphics2D) im.getGraphics();
+
+		crayon.setColor(Color.black);
+		crayon.setFont(new Font("Arial", Font.BOLD, 18));
+		crayon.drawString("Scrore : " + String.valueOf(jeu.score()), Constante.SCORE_ABSCISSE, Constante.SCORE_ORDONNEE);
 	}
 
 }

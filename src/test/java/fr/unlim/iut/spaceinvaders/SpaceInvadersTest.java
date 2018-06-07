@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.unlim.iut.spaceinvaders.model.Collision;
+import fr.unlim.iut.spaceinvaders.model.Constante;
 import fr.unlim.iut.spaceinvaders.model.Dimension;
 import fr.unlim.iut.spaceinvaders.model.Position;
 import fr.unlim.iut.spaceinvaders.model.SpaceInvaders;
@@ -591,6 +592,45 @@ public class SpaceInvadersTest {
       
       
   }
+   
+   
+   @Test
+   public void test_detruireUnEnvahisseurAugmenteLesPoints() {
+
+	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 2);
+
+	   spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(7,1), 2);
+	   spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(11,1), 2);
+	   
+	   spaceinvaders.tirerUnMissile(new Dimension(1,2),2);
+	   
+	   spaceinvaders.deplacerTousLesMissiles();
+	   
+      assertEquals("" + 
+      ".......EEE.EEE.\n" + 
+	  ".......EEE.EEE.\n" +
+      "...............\n" + 
+      "...............\n" + 
+      "........M......\n" + 
+      "........M......\n" + 
+      "...............\n" + 
+      "...............\n" + 
+      ".....VVVVVVV...\n" + 
+      ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+      
+      
+      assertEquals(0 , spaceinvaders.score());
+      
+      spaceinvaders.deplacerTousLesMissiles();
+      spaceinvaders.deplacerTousLesMissiles();
+      
+      assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnEnvahisseur(0), spaceinvaders.recupererUnMissile(0)));
+      
+      spaceinvaders.eliminerEnvahisseurSiTouche();
+      
+      assertEquals(100 , spaceinvaders.score());
+      
+   }
    
    
 }

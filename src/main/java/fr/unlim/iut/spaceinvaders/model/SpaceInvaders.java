@@ -16,22 +16,25 @@ public class SpaceInvaders implements Jeu {
 	Vaisseau vaisseau;
 	List<Missile> missiles;
 	List<Envahisseur> envahisseurs;
+	int score;
 
 	public SpaceInvaders(int longueur, int hauteur) {
 		this.longueur = longueur;
 		this.hauteur = hauteur;
 		this.missiles = new ArrayList<Missile>();
 		this.envahisseurs = new ArrayList<Envahisseur>();
+		this.score = 0;
 	}
 
 	public void initialiserJeu() {
-		//vaisseau
-		Position positionVaisseau = new Position(this.longueur/2,this.hauteur-1);
+		// vaisseau
+		Position positionVaisseau = new Position(this.longueur/2,this.hauteur-1 - Constante.ZONE_SCORE_HAUTEUR);
 		Dimension dimensionVaisseau = new Dimension(Constante.VAISSEAU_LONGUEUR, Constante.VAISSEAU_HAUTEUR);
 		positionnerUnNouveauVaisseau(dimensionVaisseau, positionVaisseau, Constante.VAISSEAU_VITESSE);
 		
-		//envahisseurs
+		// envahisseurs
 		positionnerUneLigneEnvahisseurs();
+		
 		
 	}
 	
@@ -156,16 +159,27 @@ public class SpaceInvaders implements Jeu {
 		this.eliminerEnvahisseurSiTouche();
 		
 	}
-
+	
+	public int score() {
+		return this.score;
+	}
+	
 	public void eliminerEnvahisseurSiTouche() {
 		for (int i=0; i < missiles.size(); i++) {
 			for (int j=0; j < envahisseurs.size(); j++) {
-				if (Collision.detecterCollision(envahisseurs.get(j), missiles.get(i))) {
-					envahisseurs.remove(j);
-					missiles.remove(i);
+				if (this.aUnMissile() && this.aUnEnvahisseur()) {
+					if (Collision.detecterCollision(envahisseurs.get(j), missiles.get(i))) {
+						envahisseurs.remove(j);
+						missiles.remove(i);
+						this.MAJPoints();
+					}
 				}
 			}
 		}
+	}
+	
+	public void MAJPoints() {
+		this.score += Constante.POINTS_DESTRUCTION_ENVAHISSEUR;
 	}
 	
 	@Override
@@ -289,4 +303,5 @@ public class SpaceInvaders implements Jeu {
 				this.envahisseurs.get(j).changerDirection();
 		}
 	}
+
 }
