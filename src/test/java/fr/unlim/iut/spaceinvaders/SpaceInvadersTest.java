@@ -328,7 +328,7 @@ public class SpaceInvadersTest {
 	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 1);
 	   spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(1,1), new Position(7,0), 1);
 	   
-	   spaceinvaders.deplacementAutomatiqueEnvahisseur();
+	   spaceinvaders.deplacementAutomatiqueDesEnvahisseurs();
 	   
        assertEquals("" +
        "......E........\n" + 
@@ -400,6 +400,43 @@ public class SpaceInvadersTest {
    			"...............\n" + 
    			"VVV............\n" + 
    			"VVV............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+   }
+   
+   @Test
+   public void test_LaLigneEnvahisseursSeDeplaceCorrectement() {
+	for (int i=0; i<3; i++) {
+	 spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(i*4,1), 2);
+	}
+   
+   	
+   	assertEquals("" + 
+   			"EEE.EEE.EEE....\n" + 
+   			"EEE.EEE.EEE....\n" +
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+   	
+   	spaceinvaders.deplacementAutomatiqueDesEnvahisseurs();
+   	spaceinvaders.deplacementAutomatiqueDesEnvahisseurs();
+   	spaceinvaders.deplacementAutomatiqueDesEnvahisseurs();
+   	
+   	assertEquals("" + 
+   			"..EEE.EEE.EEE..\n" + 
+   			"..EEE.EEE.EEE..\n" +
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" + 
+   			"...............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+   	
    }
    
    

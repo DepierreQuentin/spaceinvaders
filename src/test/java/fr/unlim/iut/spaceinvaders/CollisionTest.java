@@ -57,7 +57,7 @@ public class CollisionTest {
 		
 		spaceinvaders.deplacerTousLesMissiles();
 		
-		assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnMissile(0), spaceinvaders.recupererEnvahisseur()));
+		assertEquals(true , Collision.detecterCollision(spaceinvaders.recupererUnMissile(0), spaceinvaders.recupererUnEnvahisseur(0)));
 	}
 	
 	
