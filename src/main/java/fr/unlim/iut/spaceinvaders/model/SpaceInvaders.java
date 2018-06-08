@@ -49,11 +49,11 @@ public class SpaceInvaders implements Jeu {
 		positionnerUnNouveauVaisseau(dimensionVaisseau, positionVaisseau, Constante.VAISSEAU_VITESSE);
 		
 		// envahisseurs
-		positionnerTousLesenvahisseurs();
+		positionnerTousLesEnvahisseurs();
 		
 	}
 	
-	public void positionnerTousLesenvahisseurs() {
+	public void positionnerTousLesEnvahisseurs() {
 		int nbLignes = this.calculerNbLignes();
 		for (int numLigne=0; numLigne < nbLignes; numLigne++) {
 			positionnerUneLigneEnvahisseurs(numLigne);
@@ -398,7 +398,7 @@ public class SpaceInvaders implements Jeu {
 			for (int j=0; j < tousLesEnvahisseurs.length; j++) {
 				for (int i=0; i < tousLesEnvahisseurs[j].getAll().size(); i++) {
 					this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).changerDirection();
-					this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).faireDescendre();
+					//this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).faireDescendre();
 				}
 			}
 		}
