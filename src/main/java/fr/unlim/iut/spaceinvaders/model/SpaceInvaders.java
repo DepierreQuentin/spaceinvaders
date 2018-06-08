@@ -398,7 +398,7 @@ public class SpaceInvaders implements Jeu {
 			for (int j=0; j < tousLesEnvahisseurs.length; j++) {
 				for (int i=0; i < tousLesEnvahisseurs[j].getAll().size(); i++) {
 					this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).changerDirection();
-					//this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).faireDescendre();
+					this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).faireDescendre(Constante.ENVAHISSEUR_VITESSE_DESCENTE);
 				}
 			}
 		}
