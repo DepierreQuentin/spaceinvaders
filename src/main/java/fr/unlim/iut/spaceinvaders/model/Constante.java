@@ -17,7 +17,7 @@ public class Constante {
 	   public static final int ENVAHISSEUR_HAUTEUR = 20;
 	   public static final int ENVAHISSEUR_VITESSE = 2;
 	   public static final int ENVAHISSEUR_VITESSE_DESCENTE = 10;
-	   public static final float ENVAHISSEUR_PROBABILITE_TIR = 0.05f;
+	   public static final float ENVAHISSEUR_PROBABILITE_TIR = 0.2f;
 	   
 	
 	   public static final char MARQUE_FIN_LIGNE = '\n';

@@ -16,7 +16,7 @@ public class SpaceInvaders implements Jeu {
 	private int hauteur;
 	private Vaisseau vaisseau;
 	private List<Missile> missiles;
-	private LigneEnvahisseur[] tousLesEnvahisseurs;
+	private List<List<Envahisseur>> tousLesEnvahisseurs;
 	private List<Missile> missilesEnvahisseurs;
 	private int score;
 	private boolean partieTerminee;
@@ -27,11 +27,10 @@ public class SpaceInvaders implements Jeu {
 		this.hauteur = hauteur;
 		this.missiles = new ArrayList<Missile>();
 		
-		int nbLignes = calculerNbLignes();
-		this.tousLesEnvahisseurs = new LigneEnvahisseur[nbLignes];
+		this.tousLesEnvahisseurs = new ArrayList<List<Envahisseur>>();
 		
-		for(int i = 0 ; i < nbLignes ; i++) {
-			this.tousLesEnvahisseurs[i] = new LigneEnvahisseur();
+		for(int i=0; i < Calculs.nbLignesEnvahisseurs; i++) {
+			tousLesEnvahisseurs.add(new ArrayList<Envahisseur>());
 		}
 		
 		this.missilesEnvahisseurs = new ArrayList<Missile>();
@@ -54,16 +53,14 @@ public class SpaceInvaders implements Jeu {
 	}
 	
 	public void positionnerTousLesEnvahisseurs() {
-		int nbLignes = this.calculerNbLignes();
+		int nbLignes = Calculs.nbLignesEnvahisseurs;
 		for (int numLigne=0; numLigne < nbLignes; numLigne++) {
 			positionnerUneLigneEnvahisseurs(numLigne);
 		}
 	}
 	
 	private void positionnerUneLigneEnvahisseurs(int numLigne) {
-		int nbEnvahisseurParLigne = calculerNbEnvahisseursParLigne();
-
-		for(int i = 0 ; i < nbEnvahisseurParLigne ; i++) {
+		for(int i = 0 ; i < Calculs.nbEnvahisseursParLigne ; i++) {
 			positionnerUnNouvelEnvahisseur(new Dimension(Constante.ENVAHISSEUR_LONGUEUR, Constante.ENVAHISSEUR_HAUTEUR),
 					new Position(calculerAbscisseEnvahisseur(i), calculerOrdonneeEnvahisseur(numLigne)),
 					Constante.ENVAHISSEUR_VITESSE, numLigne);
@@ -73,19 +70,10 @@ public class SpaceInvaders implements Jeu {
 	private int calculerOrdonneeEnvahisseur(int j) {
 		return (int) ( (float)j * ( ((float)Constante.ENVAHISSEUR_HAUTEUR) * 1.5 ) ) + Constante.ENVAHISSEUR_HAUTEUR;
 	}
-	
-	private int calculerNbLignes() {
-		return (int) ( ( (float) (Constante.ESPACEJEU_HAUTEUR/3) ) / ( ((float)Constante.ENVAHISSEUR_HAUTEUR) * 1.5 ) ) - 1;
-	}
 
 	private int calculerAbscisseEnvahisseur(int i) {
 		return (int) ( (float)i * ( ((float)Constante.ENVAHISSEUR_LONGUEUR) * 1.5 ) );
 	}
-
-	private int calculerNbEnvahisseursParLigne() {
-		return (int) ( ( (float) Constante.ESPACEJEU_LONGUEUR ) / ( ((float)Constante.ENVAHISSEUR_LONGUEUR) * 1.5 ) ) - 1;
-	}
-	
 
 	public String recupererEspaceJeuDansChaineASCII() {
 		StringBuilder espaceDeJeu = new StringBuilder();
@@ -182,15 +170,13 @@ public class SpaceInvaders implements Jeu {
 					Constante.MISSILE_VITESSE);
 		}
 		
-		/*
 		if(rand.nextFloat() < Constante.ENVAHISSEUR_PROBABILITE_TIR) {
 			tirerMissileEnvahisseurAleatoirement(new Dimension(Constante.MISSILE_LONGUEUR, Constante.MISSILE_HAUTEUR), Constante.MISSILE_VITESSE);
 		}
-		*/
 		
 		this.deplacerTousLesMissiles();
 		
-		this.deplacementAutomatiqueDesEnvahisseurs();
+		this.deplacerLesEnvahisseurs();
 		
 		
 		this.controlerTousLesMissiles();
@@ -205,15 +191,39 @@ public class SpaceInvaders implements Jeu {
 	
 	public void tirerMissileEnvahisseurAleatoirement(Dimension dimensionMissile, int vitesseMissile) {
 		if (this.aUnEnvahisseur()) {
-			int indexAleatoire = rand.nextInt(tousLesEnvahisseurs[0].getAll().size());
+			int indexAleatoire = rand.nextInt(tousLesEnvahisseurs.get(0).size());
+			
+			int numLigne = 0;
+			/* Les tireurs sont ceux de la ligne la plus haute
+			 * 
+			boolean tireurTrouve = false;
+			while ((numLigne < Calculs.nbLignesEnvahisseurs) && !tireurTrouve) {
+				if (estLEnvahisseurLePlusBasDeSaColonne(numLigne, indexAleatoire))
+					tireurTrouve = true;
+				
+				if (!tireurTrouve)
+					numLigne++;
+			}
+			*/
 		
-			tirerMissileEnvahisseur(dimensionMissile, vitesseMissile, indexAleatoire);
+			tirerMissileEnvahisseur(dimensionMissile, vitesseMissile, numLigne, indexAleatoire);
 		}
 	}
 	
+	public boolean estLEnvahisseurLePlusBasDeSaColonne(int numLigne, int index) {
+		
+		Envahisseur envahisseur = this.recupererUneLigneDEnvahisseur(numLigne).get(index);
+		
+		int ordonneeEnvahisseurPotentiellementEnDessous = envahisseur.ordonneeDuMilieu() + envahisseur.hauteur();
+		
+		return (this.aUnEnvahisseurQuiOccupeLaPosition(envahisseur.abscisseDuMilieu(), ordonneeEnvahisseurPotentiellementEnDessous));
+		
+	}
+	
 	public void controlerMissilesEnvahisseurs() {
-		for (int i=0; i < missilesEnvahisseurs.size(); i++) {
-			if (Collision.detecterCollision(this.vaisseau, missilesEnvahisseurs.get(i))) {
+		//for (int i=0; i < missilesEnvahisseurs.size(); i++) {
+		for (Missile missileEnvahisseur : missilesEnvahisseurs) {
+			if (Collision.detecterCollision(this.vaisseau, missileEnvahisseur)) {
 				this.partieTerminee = true;
 			}
 		}
@@ -225,19 +235,18 @@ public class SpaceInvaders implements Jeu {
 	
 	public void controlerMissilesVaisseau() {
 		for (int i=0; i < missiles.size(); i++) {
-			for (int numLigne=0; numLigne < tousLesEnvahisseurs.length; numLigne++) {
-				for (int j=0; j < tousLesEnvahisseurs[numLigne].getAll().size(); j++) {
+			for (int numLigne=0; numLigne < tousLesEnvahisseurs.size(); numLigne++) {
+				for (int j=0; j < tousLesEnvahisseurs.get(numLigne).size(); j++) {
 					if (this.aUnMissile() && this.aUnEnvahisseurSurLaLigne(numLigne)) {
-						if (Collision.detecterCollision(tousLesEnvahisseurs[numLigne].recupererUnEnvahisseur(j), missiles.get(i))) {
-							tousLesEnvahisseurs[numLigne].getAll().remove(j);
+						if (Collision.detecterCollision(tousLesEnvahisseurs.get(numLigne).get(j), missiles.get(i))) {
+							tousLesEnvahisseurs.get(numLigne).remove(j);
 							missiles.remove(i);
 							this.MAJPoints();
 						}
 					}
 				}
 			}
-			/*
-			 * cas d'utilisation supprimé, explication dans SpaceInvadersTest
+			/* cas d'utilisation supprimé (annulation de 2 missiles qui se rencontrent
 			 * 
 			for (int j=0; j < missilesEnvahisseurs.size(); j++) {
 				if (this.aUnMissile() && this.aUnMissileEnvahisseur()) {
@@ -271,8 +280,9 @@ public class SpaceInvaders implements Jeu {
 		
 		boolean peutEtreTire = true;
 		
-		for (int i=0; i < missiles.size(); i++) {
-			if (Collision.detecterCollision(missiles.get(i), nouveauMissile)) {
+		//for (int i=0; i < missiles.size(); i++) {
+		for (Missile missile : missiles) {
+			if (Collision.detecterCollision(missile, nouveauMissile)) {
 				peutEtreTire = false;
 			}
 		}
@@ -288,8 +298,9 @@ public class SpaceInvaders implements Jeu {
 
 	private boolean aUnMissileQuiOccupeLaPosition(int x, int y) {
 		if (this.aUnMissile()) {
-			for (int i=0; i < missiles.size(); i++) {
-				if (missiles.get(i).occupeLaPosition(x, y))
+			//for (int i=0; i < missiles.size(); i++) {
+			for (Missile missile : missiles) {
+				if (missile.occupeLaPosition(x, y))
 					return true;
 			}
 		}
@@ -312,9 +323,10 @@ public class SpaceInvaders implements Jeu {
 
 	private void deplacerMissilesVaisseau() {
 		if (this.aUnMissile()) {
-			for (int i=0; i < missiles.size(); i++) { 
+			for (int i=0; i < missiles.size(); i++) {
 				missiles.get(i).deplacerVerticalementVers(Direction.HAUT_ECRAN);
-				if (!estDansEspaceJeu(missiles.get(i).abscisseLaPlusADroite(), missiles.get(i).ordonneeLaPlusBasse())) {
+				if (!estDansEspaceJeu(missiles.get(i).abscisseLaPlusADroite(), 
+						missiles.get(i).ordonneeLaPlusBasse())) {
 					this.missiles.remove(i);
 				}
 			}
@@ -323,24 +335,27 @@ public class SpaceInvaders implements Jeu {
 	
 	
 	boolean aUnEnvahisseur() {
-		for (int i=0; i < tousLesEnvahisseurs.length; i++) {
-			if (!tousLesEnvahisseurs[i].getAll().isEmpty())
+		//for (int i=0; i < tousLesEnvahisseurs.size(); i++) {
+		for (List<Envahisseur> ligne : tousLesEnvahisseurs) {
+			if (!ligne.isEmpty())
 				return true;
 		}
 		return false;
 	}
 	
 	boolean aUnEnvahisseurSurLaLigne(int numLigne) {
-		if (!tousLesEnvahisseurs[numLigne].getAll().isEmpty())
+		if (!tousLesEnvahisseurs.get(numLigne).isEmpty())
 			return true;
 		return false;
 	}
 
 	private boolean aUnEnvahisseurQuiOccupeLaPosition(int x, int y) {
 		if (this.aUnEnvahisseur()) {
-			for (int j=0; j < tousLesEnvahisseurs.length; j++) {
-				for (int i=0; i < tousLesEnvahisseurs[j].getAll().size(); i++) {
-					if (tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).occupeLaPosition(x, y))
+			//for (int j=0; j < tousLesEnvahisseurs.size(); j++) {
+			for (List<Envahisseur> ligne : tousLesEnvahisseurs) {
+				//for (int i=0; i < tousLesEnvahisseurs.get(j).size(); i++) {
+				for (Envahisseur envahisseur : ligne) {
+					if (envahisseur.occupeLaPosition(x, y))
 						return true;
 				}
 			}
@@ -366,28 +381,28 @@ public class SpaceInvaders implements Jeu {
 			throw new DebordementEspaceJeuException(
 					"L'envahisseur déborde de l'espace jeu vers le bas à cause de sa hauteur");
 
-		tousLesEnvahisseurs[numLigne].getAll().add(new Envahisseur(dimension,position,vitesse));
+		tousLesEnvahisseurs.get(numLigne).add(new Envahisseur(dimension,position,vitesse));
 	}
 
-	public LigneEnvahisseur[] recupererLaListeDeTousLesEnvahisseurs() {
+	public List<List<Envahisseur>> recupererLaListeDeTousLesEnvahisseurs() {
 		return this.tousLesEnvahisseurs;
 	}
 	
-	public LigneEnvahisseur recupererUneLigneDEnvahisseur(int index) {
-		return this.tousLesEnvahisseurs[index];
+	public List<Envahisseur> recupererUneLigneDEnvahisseur(int index) {
+		return this.tousLesEnvahisseurs.get(index);
 	}
 	
-	public void deplacementAutomatiqueDesEnvahisseurs() {
+	public void deplacerLesEnvahisseurs() {
 		boolean unEnvahisseurEstAuBord = false;
 		if (this.aUnEnvahisseur()) {
-			for (int j=0; j < tousLesEnvahisseurs.length; j++) {
-				for (int i=0; i < tousLesEnvahisseurs[j].getAll().size(); i++) { 
-					tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).deplacerHorizontalementVers(
-							tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).direction());;
-					if (!estDansEspaceJeu(tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).abscisseLaPlusADroite(), 
-							tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).ordonneeLaPlusBasse())
-							|| !estDansEspaceJeu(tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).abscisseLaPlusAGauche(), 
-									tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).ordonneeLaPlusBasse())) {
+			//for (int j=0; j < tousLesEnvahisseurs.size(); j++) {
+			for (List<Envahisseur> ligne : tousLesEnvahisseurs) {
+				//for (int i=0; i < tousLesEnvahisseurs.get(j).size(); i++) { 
+				for (Envahisseur envahisseur : ligne) {
+					envahisseur.deplacerHorizontalementVers(envahisseur.direction());
+					
+					if (!estDansEspaceJeu(envahisseur.abscisseLaPlusADroite(), envahisseur.ordonneeLaPlusBasse())
+							|| !estDansEspaceJeu(envahisseur.abscisseLaPlusAGauche(), envahisseur.ordonneeLaPlusBasse())) {
 						
 						unEnvahisseurEstAuBord = true;
 					}
@@ -395,18 +410,19 @@ public class SpaceInvaders implements Jeu {
 			}
 		}
 		if (unEnvahisseurEstAuBord) {
-			for (int j=0; j < tousLesEnvahisseurs.length; j++) {
-				for (int i=0; i < tousLesEnvahisseurs[j].getAll().size(); i++) {
-					this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).changerDirection();
-					this.tousLesEnvahisseurs[j].recupererUnEnvahisseur(i).faireDescendre(Constante.ENVAHISSEUR_VITESSE_DESCENTE);
+			//for (int j=0; j < tousLesEnvahisseurs.size(); j++) {
+			for (List<Envahisseur> ligne : tousLesEnvahisseurs) {
+				//for (int i=0; i < tousLesEnvahisseurs.get(j).size(); i++) {
+				for (Envahisseur envahisseur : ligne) {
+					envahisseur.changerDirection();
+					envahisseur.descendreAUneCertaineVitesse(Constante.ENVAHISSEUR_VITESSE_DESCENTE);
 				}
 			}
 		}
 	}
 
-	public void tirerMissileEnvahisseur(Dimension dimensionMissile, int vitesseMissile, int index) {
-		Envahisseur tireur = tousLesEnvahisseurs[index].recupererUnEnvahisseur(
-				tousLesEnvahisseurs[index].getAll().size() -1);
+	public void tirerMissileEnvahisseur(Dimension dimensionMissile, int vitesseMissile, int numLigne, int index) {
+		Envahisseur tireur = tousLesEnvahisseurs.get(numLigne).get(index);
 		if ((tireur.hauteur()+ dimensionMissile.hauteur()) > this.hauteur )
 			throw new MissileException("Pas assez de hauteur libre entre l'envahisseur et le bas de l'espace jeu pour tirer le missile");
 			
@@ -414,8 +430,9 @@ public class SpaceInvaders implements Jeu {
 		
 		boolean peutEtreTire = true;
 		
-		for (int i=0; i < missilesEnvahisseurs.size(); i++) {
-			if (Collision.detecterCollision(missilesEnvahisseurs.get(i), nouveauMissile)) {
+		//for (int i=0; i < missilesEnvahisseurs.size(); i++) {
+		for (Missile missileEnvahisseur : missilesEnvahisseurs) {
+			if (Collision.detecterCollision(missileEnvahisseur, nouveauMissile)) {
 				peutEtreTire = false;
 			}
 		}
@@ -431,8 +448,9 @@ public class SpaceInvaders implements Jeu {
 
 	private boolean aUnMissileEnvahisseurQuiOccupeLaPosition(int x, int y) {
 		if (this.aUnEnvahisseur()) {
-			for (int i=0; i < missilesEnvahisseurs.size(); i++) {
-				if (missilesEnvahisseurs.get(i).occupeLaPosition(x, y))
+			//for (int i=0; i < missilesEnvahisseurs.size(); i++) {
+			for (Missile missileEnvahisseur : missilesEnvahisseurs) {
+				if (missileEnvahisseur.occupeLaPosition(x, y))
 					return true;
 			}
 		}

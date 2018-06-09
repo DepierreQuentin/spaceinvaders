@@ -39,7 +39,7 @@ public class Envahisseur extends Sprite {
 		return positionOrigineMissile;
 	}
 	
-	public void faireDescendre(int vitesseDescente) {
+	public void descendreAUneCertaineVitesse(int vitesseDescente) {
 		this.origine.changerOrdonnee(this.origine.ordonnee() + vitesseDescente);
 	}
 	

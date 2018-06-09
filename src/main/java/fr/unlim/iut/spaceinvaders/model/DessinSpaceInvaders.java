@@ -27,24 +27,29 @@ public class DessinSpaceInvaders implements DessinJeu {
 		}
 		if (this.jeu.aUnMissile()) {
 			List<Missile> missiles = this.jeu.recupererLaListeDesMissiles();
-			for (int i=0; i < missiles.size(); i++) {
-				this.dessinerUnMissile(missiles.get(i), im);
+			//for (int i=0; i < missiles.size(); i++) {
+			for (Missile missile : missiles) {
+				this.dessinerUnMissile(missile, im);
 			}
 		}
 		if (this.jeu.aUnEnvahisseur()) {
-			LigneEnvahisseur[] envahisseurs = this.jeu.recupererLaListeDeTousLesEnvahisseurs();
+			List<List<Envahisseur>> envahisseurs = this.jeu.recupererLaListeDeTousLesEnvahisseurs();
 			
-			for (int j=0; j < envahisseurs.length; j++) {
-				for (int i=0; i < envahisseurs[j].getAll().size(); i++) {
-					this.dessinerUnEnvahisseur(envahisseurs[j].recupererUnEnvahisseur(i), im);
+			//for (int j=0; j < envahisseurs.size(); j++) {
+			for (List<Envahisseur> ligne : envahisseurs) {
+				//for (int i=0; i < envahisseurs.get(j).size(); i++) {
+				for (Envahisseur envahisseur : ligne) {
+					this.dessinerUnEnvahisseur(envahisseur, im);
 				}
 			}
 		}
 		
 		if (this.jeu.aUnMissileEnvahisseur()) {
 			List<Missile> missilesEnvahisseurs = this.jeu.recupererLaListeDesMissilesEnvahisseurs();
-			for(int i=0; i < missilesEnvahisseurs.size(); i++) {
-				this.dessinerUnMissileEnvahisseur(missilesEnvahisseurs.get(i), im);
+			
+			//for(int i=0; i < missilesEnvahisseurs.size(); i++) {
+			for (Missile missileEnvahisseur : missilesEnvahisseurs) {
+				this.dessinerUnMissileEnvahisseur(missileEnvahisseur, im);
 			}
 		}
 		
@@ -90,7 +95,7 @@ public class DessinSpaceInvaders implements DessinJeu {
 
 		crayon.setColor(Color.black);
 		crayon.setFont(new Font("Arial", Font.BOLD, 18));
-		crayon.drawString("Scrore : " + String.valueOf(jeu.score()), Constante.SCORE_ABSCISSE, Constante.SCORE_ORDONNEE);
+		crayon.drawString("Score : " + String.valueOf(jeu.score()), Constante.SCORE_ABSCISSE, Constante.SCORE_ORDONNEE);
 	}
 	
 	private void dessinerUnMissileEnvahisseur(Missile missile, BufferedImage im) {

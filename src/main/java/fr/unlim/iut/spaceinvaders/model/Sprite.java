@@ -65,5 +65,13 @@ public abstract class Sprite {
 	public int longueur() {
 		return this.dimension.longueur();
 	}
+	
+	public int abscisseDuMilieu() {
+		return (this.abscisseLaPlusADroite() + this.abscisseLaPlusAGauche())/2;
+	}
+	
+	public int ordonneeDuMilieu() {
+		return (this.ordonneeLaPlusBasse() + this.ordonneeLaPlusHaute())/2;
+	}
 
 }
