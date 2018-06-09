@@ -424,6 +424,48 @@ public class EnvahisseurTest {
 	   
 	   }
 	   
+	   @Test
+	   public void test_FinDeLaPartieQuandLesEnvahisseursTouchentLeVaisseau() {   	
+		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3, 2), new Position(0, 1), 0, 0);
+		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3, 2), new Position(0, 9), 1);
+	   
+	   	
+		assertEquals("" + 
+				"EEE............\n" + 
+				"EEE............\n" +
+				"...............\n" + 
+				"...............\n" + 
+				"...............\n" + 
+				"...............\n" + 
+				"...............\n" + 
+				"...............\n" + 
+				"VVV............\n" + 
+				"VVV............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	   	
+		
+	   	spaceinvaders.recupererUneLigneDEnvahisseur(0).get(0).descendreAUneCertaineVitesse(6);
+	   	
+	   	assertEquals("" + 
+				"...............\n" + 
+				"...............\n" +
+				"...............\n" + 
+				"...............\n" + 
+				"...............\n" + 
+				"...............\n" + 
+				"EEE............\n" + 
+				"EEE............\n" + 
+				"VVV............\n" + 
+				"VVV............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	   	
+	   	
+	   	spaceinvaders.recupererUneLigneDEnvahisseur(0).get(0).descendreAUneCertaineVitesse(1);
+	   	
+	   	assertEquals(true, Collision.detecterCollision(spaceinvaders.recupererVaisseau(), spaceinvaders.recupererUneLigneDEnvahisseur(0).get(0)));
+	   	
+	   	assertEquals(true, spaceinvaders.etreFini());
+	   	
+	   	
+	   }
 	   
 
 }

@@ -5,9 +5,9 @@ public class Constante {
 	   public static final int ESPACEJEU_LONGUEUR = 700;
 	   public static final int ESPACEJEU_HAUTEUR = 400;
 	
-	   public static final int VAISSEAU_LONGUEUR = 30;
-	   public static final int VAISSEAU_HAUTEUR = 15;
-	   public static final int VAISSEAU_VITESSE = 7;
+	   public static final int VAISSEAU_LONGUEUR = 50;
+	   public static final int VAISSEAU_HAUTEUR = 25;
+	   public static final int VAISSEAU_VITESSE = 10;
 	   
 	   public static final int MISSILE_LONGUEUR = 5;
 	   public static final int MISSILE_HAUTEUR = 20;
@@ -15,9 +15,9 @@ public class Constante {
 	   
 	   public static final int ENVAHISSEUR_LONGUEUR = 30;
 	   public static final int ENVAHISSEUR_HAUTEUR = 20;
-	   public static final int ENVAHISSEUR_VITESSE = 2;
+	   public static final int ENVAHISSEUR_VITESSE = 5;
 	   public static final int ENVAHISSEUR_VITESSE_DESCENTE = 10;
-	   public static final float ENVAHISSEUR_PROBABILITE_TIR = 0.2f;
+	   public static final float ENVAHISSEUR_PROBABILITE_TIR = 0.1f;
 	   
 	
 	   public static final char MARQUE_FIN_LIGNE = '\n';

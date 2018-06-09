@@ -246,6 +246,7 @@ public class SpaceInvaders implements Jeu {
 					}
 				}
 			}
+			
 			/* cas d'utilisation supprimé (annulation de 2 missiles qui se rencontrent
 			 * 
 			for (int j=0; j < missilesEnvahisseurs.size(); j++) {
@@ -266,10 +267,21 @@ public class SpaceInvaders implements Jeu {
 	
 	@Override
 	public boolean etreFini() {
-		if (!this.aUnEnvahisseur())
+		if (!this.aUnEnvahisseur() || this.collisionEnvahisseursVaisseur())
 			return true;
 		
 		return partieTerminee;
+	}
+	
+	public boolean collisionEnvahisseursVaisseur() {
+		for (List<Envahisseur> ligne : tousLesEnvahisseurs) {
+			for (Envahisseur envahisseur : ligne) {
+				if (Collision.detecterCollision(this.vaisseau, envahisseur))
+					return true;
+			}
+		}
+		
+		return false;
 	}
 
 	public void tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
